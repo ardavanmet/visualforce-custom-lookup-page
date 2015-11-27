@@ -17,8 +17,6 @@ public class IFRE_FilterCriteriaLookupCtrl{
         objectName = String.escapeSingleQuotes(ApexPages.CurrentPage().getParameters().get('oN'));
         fieldName = String.escapeSingleQuotes(ApexPages.CurrentPage().getParameters().get('fN'));
         isAllSelectCheckBox = false;
-        //searchByPhone = '';
-        //searchByName ='';
         valuePassToFilterPage = '';
         getlistOfLookupsElement();
    }
@@ -26,13 +24,7 @@ public class IFRE_FilterCriteriaLookupCtrl{
    public void getlistOfLookupsElement(){
         try{ 
             listOfLookupsElement = new list<IFRE_StringSelectedWrapper>();
-            
-            /*Schema.DescribeFieldResult fieldResult = Address__c.Valid_Address__c.getDescribe();
-            List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
-        
-           for( Schema.PicklistEntry f : ple){
-              listOfLookupsElement.add(new IFRE_StringSelectedWrapper(f.getValue(), false));
-           }*/    
+               
             Schema.SObjectType targetType = Schema.getGlobalDescribe().get(objectName);//From the Object Api name retrieving the SObject
             Sobject Object_name = targetType.newSObject();
             Schema.sObjectType sobject_type = Object_name.getSObjectType(); //grab the sobject that was passed
@@ -43,19 +35,7 @@ public class IFRE_FilterCriteriaLookupCtrl{
                 listOfLookupsElement.add(new IFRE_StringSelectedWrapper(val.getValue(), false));
               //lstPickvals.add(a.getValue());//add the value  to our final list
             }   
-            /*String query = 'SELECT Name,'+fieldName+' FROM '+objectName;
-            list<SObject> s = Database.query(query);
-            String CountryCode = null; 
-            for(sObject sObj:s){ 
-                CountryCode = null; 
-                isCountryCodeAlreadyExist = false;    
-                if(sObj.get(fieldName) != null && sObj.get('Name') != null){
-                    if(String.valueOf(sObj.get(fieldName)).startsWith('+1')){
-                        CountryCode = '+1';
-                    }
-                    //listOfLookupsElement.add(new PhoneNumberDetail(String.valueOf(sObj.get('Name')),CountryCode,String.valueOf(sObj.get(fieldName)),false,isCountryCodeAlreadyExist));                     
-                }
-            } */
+
         }catch(Exception ex){
              apexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR,'Parameter is not defined, Please contact your Administrator!'));
         }       
